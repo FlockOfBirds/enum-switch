@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.mendix.widget.custom.enumswitch.EnumSwitch" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../../xsd/widget.xsd">
+    <name>Enum switch</name>
+    <description>This widget toggles an enumeration attribute.</description>
+    <icon>
+        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
+    </icon>
+    <properties>
+        <property key="name" type="attribute">
+            <caption>Attribute</caption>
+            <category>Data source</category>
+            <description/>
+            <attributeTypes>
+                <attributeType name="Enum"/>
+            </attributeTypes>
+        </property>
+    </properties>
+</widget>
