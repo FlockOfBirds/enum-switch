@@ -12,6 +12,11 @@ export type BootstrapStyle = "default" | "info" | "primary" | "danger" | "succes
 
 export class EnumButton extends Component<EnumButtonProps> {
     render() {
-        return createElement("button", {});
+        return createElement("button", {
+            className: classNames("btn", `btn-${this.props.bootstrapStyle}`, "span-responsive",
+                // tslint:disable-next-line:object-literal-key-quotes
+                { "disabled": this.props.status !== "enabled" }),
+            ref: this.props.getButtonNode
+        });
     }
 }

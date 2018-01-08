@@ -1,0 +1,60 @@
+@media (max-width: 768px) {
+    .widget-enum-switch {
+        .span-default.span-responsive, button.btn {
+            font-size: 50%;
+        }
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+    .widget-enum-switch .span-default.span-responsive {
+        font-size: 90%;
+    }
+}
+
+.widget-enum-switch {
+    &.form-control {
+        display: inline-block;
+        padding: 0px;
+        border-radius: 8px;
+        width: auto;
+    }
+
+    button.btn {
+        position: absolute;
+        border-radius: 8px;
+        transition: all 0.5s ease;
+
+        &.disabled {
+            pointer-events: none;
+        }
+    }
+    .span-default {
+        padding: 8px;
+        font-size: 18px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+        opacity: 0.3;
+
+        &.active {
+            opacity: 0.9;
+            color: white;
+        }
+
+        &.disabled {
+            pointer-events: none;
+        }
+    }
+}
+
+.enum-switch.noContext {
+    display: inline-block;
+    pointer-events: none;
+    border: 1px solid #dfdfdf;
+    border-radius: 8px;
+    background-color: #fff;
+    width: 200px;
+    height: 41px;
+}

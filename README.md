@@ -16,8 +16,8 @@ https://enumswitch-main.mxapps.io
 ## Usage
 - Place the widget in the context of an object that has a enumeration.
 
-![config_dataSource_tab](/assets/config_dataSource_tab.png)
-![config_display_tab](/assets/config_display_tab.png)
+![Data Source](/assets/config_dataSource_tab.PNG)
+![Display](/assets/config_display_tab.PNG)
 
 ## Issues, suggestions and feature requests
 We are actively maintaining this widget, please report any issues or suggestion for improvement at https://github.com/SamuelMuloki/EnumSwitch/issues

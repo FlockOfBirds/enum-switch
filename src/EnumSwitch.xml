@@ -14,5 +14,46 @@
                 <attributeType name="Enum"/>
             </attributeTypes>
         </property>
+        <property key="editable" type="enumeration" defaultValue="default">
+            <caption>Editable</caption>
+            <category>Display</category>
+            <description/>
+            <enumerationValues>
+                <enumerationValue key="default">Default</enumerationValue>
+                <enumerationValue key="never">Never</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="bootstrapStyle" type="enumeration" defaultValue="default">
+            <caption>Button style</caption>
+            <category>Display</category>
+            <description>The appearance of the button using bootstrap classes.</description>
+            <enumerationValues>
+                <enumerationValue key="default">Default</enumerationValue>
+                <enumerationValue key="inverse">Inverse</enumerationValue>
+                <enumerationValue key="primary">Primary</enumerationValue>
+                <enumerationValue key="success">Success</enumerationValue>
+                <enumerationValue key="info">Info</enumerationValue>
+                <enumerationValue key="warning">Warning</enumerationValue>
+                <enumerationValue key="danger">Danger</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="collection" type="object" isList="true" required="false">
+            <caption>Enumeration properties</caption>
+            <category>Display</category>
+            <description>Properties to show in the enumeration</description>
+            <properties>
+                <property key="exclude" type="string">
+                    <caption>Exclude key</caption>
+                    <category>Data source</category>
+                    <description>Keys to exclude from the enumeration</description>
+                </property>
+           </properties>
+        </property>
+        <property key="onChangeMicroflow" type="microflow" required="false">
+            <caption>Microflow</caption>
+            <category>Events</category>
+            <description>The microflow that will be executed on click</description>
+            <returnType type="Void" />
+        </property>
     </properties>
 </widget>
