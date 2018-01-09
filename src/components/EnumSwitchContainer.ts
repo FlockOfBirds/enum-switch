@@ -11,7 +11,7 @@ interface WrapperProps {
 export interface EnumContainerProps extends WrapperProps {
     name: string;
     editable: "default" | "never";
-    collection: { exclude: string }[];
+    collection: { exclude: string; include: string}[];
     bootstrapStyle: BootstrapStyle;
     onChangeMicroflow: string;
     page: string;
@@ -68,9 +68,10 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
     private getEnumValues(mxObject: mendix.lib.MxObject) {
         let enumValues = mxObject.getEnumMap(this.props.name);
         if (this.props.editable !== "never") {
-            this.props.collection.forEach(buttons =>
-                enumValues = enumValues.filter(item => item.caption !== buttons.exclude)
-            );
+            this.props.collection.forEach(buttons => {
+                enumValues.push({ key: buttons.include, caption: buttons.include });
+                enumValues = enumValues.filter(item => item.caption !== buttons.exclude);
+            });
         }
 
         return enumValues;
