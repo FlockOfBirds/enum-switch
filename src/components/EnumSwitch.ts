@@ -42,6 +42,8 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.createSpan = this.createSpan.bind(this);
         this.getActiveSpanNodeRef = this.getActiveSpanNodeRef.bind(this);
         this.WidgetContainerNodeRef = this.WidgetContainerNodeRef.bind(this);
+        this.registerEvents = this.registerEvents.bind(this);
+        this.removeEvents = this.removeEvents.bind(this);
     }
     render() {
         // tslint:disable-next-line:no-object-literal-type-assertion
@@ -69,6 +71,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
                 width: this.state.width,
                 height: this.state.height
             }));
+            this.registerEvents();
         }
         this.props.enumList.forEach(elements => {
             const spanElements = createElement("span", {
@@ -88,18 +91,18 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
 
     private getActiveSpanNodeRef(node: HTMLSpanElement) {
-            this.activeSpanNode = node;
+        this.activeSpanNode = node;
     }
 
     private WidgetContainerNodeRef(node: HTMLDivElement) {
         this.widgetContainerNode = node;
     }
 
-    private enumToggleSlider(prevProps: EnumSwitchProps, prevState: EnumSwitchState) {
+    private enumToggleSlider() {
         const widgetContainer = this.widgetContainerNode;
         const activeSpan = this.activeSpanNode;
 
-        if (widgetContainer && prevProps.enumAttributeValue !== this.props.enumAttributeValue) {
+        if (widgetContainer) {
             if (activeSpan) {
                 const activeSpanClient = activeSpan.getBoundingClientRect();
                 this.setState({
@@ -115,6 +118,20 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
 
     componentDidUpdate(prevProps: EnumSwitchProps, prevState: EnumSwitchState) {
-        this.enumToggleSlider(prevProps, prevState);
+        if (prevProps.enumAttributeValue !== this.props.enumAttributeValue) {
+            this.enumToggleSlider();
+        }
+    }
+
+    componentWillUnmount() {
+        this.removeEvents();
+    }
+
+    private registerEvents() {
+        window.addEventListener("resize", this.enumToggleSlider);
+    }
+
+    private removeEvents() {
+        window.removeEventListener("resize", this.enumToggleSlider);
     }
 }
