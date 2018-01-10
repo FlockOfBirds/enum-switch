@@ -14,10 +14,17 @@ export interface EnumSwitchProps {
     bootstrapStyle: BootstrapStyle;
 }
 
-export type SwitchStatus = "enabled" | "disabled" | "no-context";
+export interface EnumSwitchState {
+    position?: number;
+    width?: string;
+    height?: string;
+    visibility?: string;
+}
+
+export type SwitchStatus = "enabled" | "disabled" | "noContext";
 export type BootstrapStyle = "default" | "info" | "primary" | "danger" | "success" | "warning";
 
-export class EnumSwitch extends Component<EnumSwitchProps> {
+export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     private ButtonNode: HTMLButtonElement;
     private activeSpanNode: HTMLSpanElement;
     private widgetContainerNode: HTMLDivElement;
@@ -25,9 +32,14 @@ export class EnumSwitch extends Component<EnumSwitchProps> {
     constructor(props: EnumSwitchProps) {
         super(props);
 
+        this.state = {
+            position: 0,
+            width: "",
+            height: "",
+            visibility: ""
+        };
         this.enumToggleSlider = this.enumToggleSlider.bind(this);
         this.createSpan = this.createSpan.bind(this);
-        this.getButtonNodeRef = this.getButtonNodeRef.bind(this);
         this.getActiveSpanNodeRef = this.getActiveSpanNodeRef.bind(this);
         this.WidgetContainerNodeRef = this.WidgetContainerNodeRef.bind(this);
     }
@@ -52,7 +64,10 @@ export class EnumSwitch extends Component<EnumSwitchProps> {
             btnElement.push(createElement(EnumButton, {
                 status: this.props.status,
                 bootstrapStyle: this.props.bootstrapStyle,
-                getButtonNode: this.getButtonNodeRef
+                position: this.state.position,
+                visibility: this.state.visibility,
+                width: this.state.width,
+                height: this.state.height
             }));
         }
         this.props.enumList.forEach(elements => {
@@ -72,10 +87,6 @@ export class EnumSwitch extends Component<EnumSwitchProps> {
         return btnElement;
     }
 
-    private getButtonNodeRef(node: HTMLButtonElement) {
-            this.ButtonNode = node;
-    }
-
     private getActiveSpanNodeRef(node: HTMLSpanElement) {
             this.activeSpanNode = node;
     }
@@ -84,36 +95,26 @@ export class EnumSwitch extends Component<EnumSwitchProps> {
         this.widgetContainerNode = node;
     }
 
-    private enumToggleSlider() {
+    private enumToggleSlider(prevProps: EnumSwitchProps, prevState: EnumSwitchState) {
         const widgetContainer = this.widgetContainerNode;
         const activeSpan = this.activeSpanNode;
-        const enumToggle = this.ButtonNode;
 
-        if (enumToggle && widgetContainer) {
+        if (widgetContainer && prevProps.enumAttributeValue !== this.props.enumAttributeValue) {
             if (activeSpan) {
                 const activeSpanClient = activeSpan.getBoundingClientRect();
-                const spanPosition = (activeSpanClient.left - widgetContainer.getBoundingClientRect().left);
-                enumToggle.style.visibility = "visible";
-                enumToggle.style.transform = `translate3d(${spanPosition}px,0px, 0px)`;
-                enumToggle.style.width = activeSpanClient.width + "px";
-                enumToggle.style.height = activeSpanClient.height + "px";
+                this.setState({
+                    visibility: "visible",
+                    position: activeSpanClient.left - widgetContainer.getBoundingClientRect().left,
+                    width: activeSpanClient.width + "px",
+                    height: activeSpanClient.height + "px"
+                });
             } else {
-                enumToggle.style.visibility = "hidden";
+                this.setState({ visibility: "hidden" });
             }
         }
     }
 
-    componentDidMount() {
-        window.addEventListener("resize", this.enumToggleSlider);
-    }
-
-    componentDidUpdate() {
-        if (this.props.status !== "no-context") {
-            this.enumToggleSlider();
-        }
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.enumToggleSlider);
+    componentDidUpdate(prevProps: EnumSwitchProps, prevState: EnumSwitchState) {
+        this.enumToggleSlider(prevProps, prevState);
     }
 }

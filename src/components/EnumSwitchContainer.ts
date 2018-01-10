@@ -91,7 +91,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
             return enabled ? "enabled" : "disabled";
         }
 
-        return "no-context";
+        return "noContext";
     }
 
     private handleToggle(caption: string) {

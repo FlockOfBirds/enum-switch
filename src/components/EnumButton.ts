@@ -4,10 +4,13 @@ import * as classNames from "classnames";
 export interface EnumButtonProps {
     status: SwitchStatus;
     bootstrapStyle: BootstrapStyle;
-    getButtonNode?: (ref: HTMLButtonElement | null) => void;
+    visibility?: string;
+    position?: number;
+    width?: string;
+    height?: string;
 }
 
-export type SwitchStatus = "enabled" | "disabled" | "no-context";
+export type SwitchStatus = "enabled" | "disabled" | "noContext";
 export type BootstrapStyle = "default" | "info" | "primary" | "danger" | "success" | "warning";
 
 export class EnumButton extends Component<EnumButtonProps> {
@@ -16,7 +19,12 @@ export class EnumButton extends Component<EnumButtonProps> {
             className: classNames("btn", `btn-${this.props.bootstrapStyle}`, "span-responsive",
                 // tslint:disable-next-line:object-literal-key-quotes
                 { "disabled": this.props.status !== "enabled" }),
-            ref: this.props.getButtonNode
+            style: {
+                visibility: this.props.visibility,
+                transform: `translate3d(${this.props.position}px, 0px, 0px)`,
+                width: this.props.width,
+                height: this.props.height
+            }
         });
     }
 }
