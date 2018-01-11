@@ -16,16 +16,17 @@ export interface EnumSwitchProps {
 
 export interface EnumSwitchState {
     position?: number;
-    width?: string;
-    height?: string;
+    width?: number;
+    height?: number;
     visibility?: string;
+    color?: string;
 }
 
 export type SwitchStatus = "enabled" | "disabled" | "noContext";
 export type BootstrapStyle = "default" | "info" | "primary" | "danger" | "success" | "warning";
 
 export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
-    private ButtonNode: HTMLButtonElement;
+    private buttonNode: HTMLButtonElement;
     private activeSpanNode: HTMLSpanElement;
     private widgetContainerNode: HTMLDivElement;
 
@@ -34,14 +35,15 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
 
         this.state = {
             position: 0,
-            width: "",
-            height: "",
+            width: 0,
+            height: 0,
             visibility: ""
         };
         this.enumToggleSlider = this.enumToggleSlider.bind(this);
         this.createSpan = this.createSpan.bind(this);
         this.getActiveSpanNodeRef = this.getActiveSpanNodeRef.bind(this);
         this.WidgetContainerNodeRef = this.WidgetContainerNodeRef.bind(this);
+        this.getButtonNodeRef = this.getButtonNodeRef.bind(this);
         this.registerEvents = this.registerEvents.bind(this);
         this.removeEvents = this.removeEvents.bind(this);
     }
@@ -66,6 +68,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
             btnElement.push(createElement(EnumButton, {
                 status: this.props.status,
                 bootstrapStyle: this.props.bootstrapStyle,
+                getButtonNode: this.getButtonNodeRef,
                 position: this.state.position,
                 visibility: this.state.visibility,
                 width: this.state.width,
@@ -98,6 +101,10 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.widgetContainerNode = node;
     }
 
+    private getButtonNodeRef(node: HTMLButtonElement) {
+        this.buttonNode = node;
+    }
+
     private enumToggleSlider() {
         const widgetContainer = this.widgetContainerNode;
         const activeSpan = this.activeSpanNode;
@@ -108,8 +115,8 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
                 this.setState({
                     visibility: "visible",
                     position: activeSpanClient.left - widgetContainer.getBoundingClientRect().left,
-                    width: activeSpanClient.width + "px",
-                    height: activeSpanClient.height + "px"
+                    width: activeSpanClient.width,
+                    height: activeSpanClient.height
                 });
             } else {
                 this.setState({ visibility: "hidden" });
@@ -118,8 +125,11 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
 
     componentDidUpdate(prevProps: EnumSwitchProps, prevState: EnumSwitchState) {
-        if (prevProps.enumAttributeValue !== this.props.enumAttributeValue) {
-            this.enumToggleSlider();
+        if (this.props.status !== "noContext") {
+            if (prevProps.enumAttributeValue !== this.props.enumAttributeValue ||
+                (this.state.height !== this.widgetContainerNode.clientHeight && this.activeSpanNode)) {
+                this.enumToggleSlider();
+            }
         }
     }
 

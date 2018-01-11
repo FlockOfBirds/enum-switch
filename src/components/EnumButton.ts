@@ -6,8 +6,9 @@ export interface EnumButtonProps {
     bootstrapStyle: BootstrapStyle;
     visibility?: string;
     position?: number;
-    width?: string;
-    height?: string;
+    width?: number;
+    height?: number;
+    getButtonNode?: (ref: HTMLButtonElement | null) => void;
 }
 
 export type SwitchStatus = "enabled" | "disabled" | "noContext";
@@ -22,9 +23,10 @@ export class EnumButton extends Component<EnumButtonProps> {
             style: {
                 visibility: this.props.visibility,
                 transform: `translate3d(${this.props.position}px, 0px, 0px)`,
-                width: this.props.width,
-                height: this.props.height
-            }
+                width: `${this.props.width}px`,
+                height: `${this.props.height}px`
+            },
+            ref: this.props.getButtonNode
         });
     }
 }

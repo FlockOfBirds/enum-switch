@@ -6,9 +6,11 @@ Toggle an enumeration attribute.
 * Execute a microflow when toggled
 * Display in various bootstrap styles
 * Touch slide on click.
+* Include Keys in the enumeration.
+* Exclude Keys from the enumeration.
 
 ## Dependencies
-Mendix 7.6
+Mendix 7.10
 
 ## Test project
 https://enumswitch-main.mxapps.io
