@@ -65,12 +65,13 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
         this.subscriptionHandles.forEach(mx.data.unsubscribe);
     }
 
-    private getEnumValues(mxObject: mendix.lib.MxObject) {
+    private getEnumValues(mxObject: mendix.lib.MxObject): { key: string, caption: string }[] {
         let enumValues = mxObject.getEnumMap(this.props.name);
         if (this.props.editable !== "never") {
             this.props.collection.forEach(buttons => {
                 enumValues.push({ key: buttons.include, caption: buttons.include });
-                enumValues = enumValues.filter(item => item.caption !== buttons.exclude);
+                const filteredList = enumValues.filter(item => item.caption.indexOf(buttons.exclude));
+                enumValues = filteredList;
             });
         }
 
