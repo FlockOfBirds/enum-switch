@@ -1,5 +1,4 @@
 import { Component, createElement } from "react";
-import { findDOMNode } from "react-dom";
 import { Alert, AlertProps } from "./Alert";
 import { EnumButton } from "./EnumButton";
 import * as classNames from "classnames";
