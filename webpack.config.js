@@ -36,6 +36,7 @@ const widgetConfig = {
     externals: [ "react", "react-dom" ],
     plugins: [
         new CopyWebpackPlugin([
+            { from: "src/**/*.js" },
             { from: "src/**/*.xml" },
         ], {
             copyUnmodified: true

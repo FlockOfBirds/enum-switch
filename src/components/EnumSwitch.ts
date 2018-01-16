@@ -17,7 +17,7 @@ export interface EnumSwitchState {
     position?: number;
     width?: number;
     height?: number;
-    visibility?: string;
+    visibility?: "visible" | "hidden";
     color?: string;
 }
 
@@ -36,7 +36,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
             position: 0,
             width: 0,
             height: 0,
-            visibility: ""
+            visibility: "visible"
         };
         this.enumToggleSlider = this.enumToggleSlider.bind(this);
         this.createSpan = this.createSpan.bind(this);
@@ -47,18 +47,18 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.removeEvents = this.removeEvents.bind(this);
     }
     render() {
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        const msgAlert = createElement(Alert, { message: this.props.alertMessage } as AlertProps);
-
-        if (this.props.status === "enabled" || this.props.status === "disabled")
-            return createElement("div", {}, createElement("div", {
-                className: classNames("widget-enum-switch", "form-control",
-                    // tslint:disable-next-line:object-literal-key-quotes
-                    { "disabled": this.props.status !== "enabled" }),
-                ref: this.WidgetContainerNodeRef
-            }, this.createSpan()), msgAlert);
-        else
+        if (this.props.status === "enabled" || this.props.status === "disabled") {
+            return createElement("div", {},
+                createElement("div", {
+                    className: classNames("widget-enum-switch", "form-control",
+                        { disabled: this.props.status !== "enabled" }),
+                    ref: this.WidgetContainerNodeRef
+                }, this.createSpan()),
+                createElement(Alert, { message: this.props.alertMessage || "", bootstrapStyle: "danger" })
+            );
+        } else {
             return createElement("span", { className: "enum-switch noContext" });
+        }
     }
 
     private createSpan() {
@@ -78,10 +78,8 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.props.enumList.forEach(elements => {
             const spanElements = createElement("span", {
                 className: classNames("span-default", "span-responsive", {
-                    // tslint:disable-next-line:object-literal-key-quotes
-                    "active": this.props.enumAttributeValue === elements.caption,
-                    // tslint:disable-next-line:object-literal-key-quotes
-                    "disabled": this.props.status === "disabled"
+                    active: this.props.enumAttributeValue === elements.caption,
+                    disabled: this.props.status === "disabled"
                 }),
                 onClick: () => this.props.onClickAction(elements.caption),
                 ref: this.props.enumAttributeValue === elements.caption ? this.getActiveSpanNodeRef : ""
