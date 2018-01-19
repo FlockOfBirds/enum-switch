@@ -1,6 +1,6 @@
 import { Component, createElement } from "react";
-import { Alert, AlertProps } from "./Alert";
-import { EnumButton } from "./EnumButton";
+import { Alert } from "./Alert";
+import { BootstrapStyle, EnumButton, SwitchStatus } from "./EnumButton";
 import * as classNames from "classnames";
 import "../ui/EnumSwitch.scss";
 
@@ -20,9 +20,6 @@ export interface EnumSwitchState {
     visibility?: "visible" | "hidden";
     color?: string;
 }
-
-export type SwitchStatus = "enabled" | "disabled" | "noContext";
-export type BootstrapStyle = "default" | "info" | "primary" | "danger" | "success" | "warning";
 
 export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     private buttonNode: HTMLButtonElement;
@@ -47,8 +44,8 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.removeEvents = this.removeEvents.bind(this);
     }
     render() {
-        if (this.props.status === "enabled" || this.props.status === "disabled") {
-            return createElement("div", {},
+        if (this.props.status !== "noContext") {
+            return createElement("div", { className: "widget-enum-switch form-validation" },
                 createElement("div", {
                     className: classNames("widget-enum-switch", "form-control",
                         { disabled: this.props.status !== "enabled" }),
@@ -65,18 +62,20 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         const btnElement: any[] = [];
         if (this.props.enumAttributeValue) {
             btnElement.push(createElement(EnumButton, {
-                status: this.props.status,
-                bootstrapStyle: this.props.bootstrapStyle,
-                getButtonNode: this.getButtonNodeRef,
-                position: this.state.position,
-                visibility: this.state.visibility,
-                width: this.state.width,
-                height: this.state.height
-            }));
+                    key: "enumButton",
+                    status: this.props.status,
+                    bootstrapStyle: this.props.bootstrapStyle,
+                    getButtonNode: this.getButtonNodeRef,
+                    position: this.state.position,
+                    visibility: this.state.visibility,
+                    width: this.state.width,
+                    height: this.state.height
+                }));
             this.registerEvents();
         }
-        this.props.enumList.forEach(elements => {
+        this.props.enumList.forEach((elements, index) => {
             const spanElements = createElement("span", {
+                key: index,
                 className: classNames("span-default", "span-responsive", {
                     active: this.props.enumAttributeValue === elements.caption,
                     disabled: this.props.status === "disabled"

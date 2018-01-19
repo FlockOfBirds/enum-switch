@@ -1,6 +1,7 @@
 import { Component, createElement } from "react";
 import { Alert } from "./Alert";
-import { BootstrapStyle, EnumSwitch, SwitchStatus } from "./EnumSwitch";
+import { EnumSwitch } from "./EnumSwitch";
+import { BootstrapStyle, SwitchStatus } from "./EnumButton";
 
 interface WrapperProps {
     class: string;
@@ -69,9 +70,9 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
         let enumValues = mxObject.getEnumMap(this.props.name);
         if (this.props.editable !== "never") {
             this.props.collection.forEach(buttons => {
-                enumValues.push({ key: buttons.include, caption: buttons.include });
                 const filteredList = enumValues.filter(item => item.caption.indexOf(buttons.exclude));
                 enumValues = filteredList;
+                // enumValues.push({ key: buttons.include, caption: buttons.include });
             });
         }
 

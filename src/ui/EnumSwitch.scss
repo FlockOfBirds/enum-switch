@@ -13,6 +13,9 @@
 }
 
 .widget-enum-switch {
+    &.form-validation {
+        padding: 2%;
+    }
     &.form-control {
         display: inline-block;
         padding: 0px;

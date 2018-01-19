@@ -20,27 +20,6 @@ describe("Alert", () => {
         expect(alert).toBeElement(null);
     });
 
-    it("renders with the class of the specified bootstrap style", () => {
-        const alert = renderAlert({ bootstrapStyle: "danger", message: alertMessage });
-
-        expect(alert).toHaveClass("alert-danger");
-
-        alert.setProps({ bootstrapStyle: "default" });
-        expect(alert).toHaveClass("alert-default");
-
-        alert.setProps({ bootstrapStyle: "success" });
-        expect(alert).toHaveClass("alert-success");
-
-        alert.setProps({ bootstrapStyle: "primary" });
-        expect(alert).toHaveClass("alert-primary");
-
-        alert.setProps({ bootstrapStyle: "info" });
-        expect(alert).toHaveClass("alert-info");
-
-        alert.setProps({ bootstrapStyle: "warning" });
-        expect(alert).toHaveClass("alert-warning");
-    });
-
     it("renders with the specified class name", () => {
         const message = "This is an error";
         const className = "widget-enum-switch";
@@ -49,5 +28,43 @@ describe("Alert", () => {
         expect(alert).toBeElement(
             createElement("div", { className: "alert alert-danger widget-enum-switch" }, message)
         );
+    });
+
+    describe("with bootstrap style", () => {
+        it("success", () => {
+            const message = "This is an alert";
+            const alert = shallow(createElement(Alert, { bootstrapStyle: "success", message }));
+
+            expect(alert).toBeElement(
+                createElement("div", { className: "alert alert-success" }, message)
+            );
+        });
+
+        it("alert", () => {
+            const message = "This is an alert";
+            const alert = shallow(createElement(Alert, { bootstrapStyle: "danger", message }));
+
+            expect(alert).toBeElement(
+                createElement("div", { className: "alert alert-danger" }, message)
+            );
+        });
+
+        it("info", () => {
+            const message = "This is an alert";
+            const alert = shallow(createElement(Alert, { bootstrapStyle: "info", message }));
+
+            expect(alert).toBeElement(
+                createElement("div", { className: "alert alert-info" }, message)
+            );
+        });
+
+        it("warning", () => {
+            const message = "This is an alert";
+            const alert = shallow(createElement(Alert, { bootstrapStyle: "warning", message }));
+
+            expect(alert).toBeElement(
+                createElement("div", { className: "alert alert-warning" }, message)
+            );
+        });
     });
 });
