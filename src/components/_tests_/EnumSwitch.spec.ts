@@ -1,4 +1,4 @@
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 import { createElement } from "react";
 import * as classNames from "classnames";
 import { Alert, AlertProps } from "../Alert";
@@ -7,7 +7,8 @@ import { EnumSwitch, EnumSwitchProps } from "../EnumSwitch";
 import { EnumButton } from "../EnumButton";
 
 describe("EnumSwitch", () => {
-    const renderEnumSwitch = (props: EnumSwitchProps) => shallow(createElement(EnumSwitch, props));
+    const shallowRenderSwitch = (props: EnumSwitchProps) => shallow(createElement(EnumSwitch, props));
+    const fullRenderSwitch = (props: EnumSwitchProps) => mount(createElement(EnumSwitch, props));
 
     const defaultProps: EnumSwitchProps = {
         alertMessage: "",
@@ -19,7 +20,7 @@ describe("EnumSwitch", () => {
     };
 
     it("renders the structure correctly", () => {
-        const enumswitch = renderEnumSwitch(defaultProps);
+        const enumswitch = shallowRenderSwitch(defaultProps);
 
         expect(enumswitch).toBeElement(
             createElement("div", { className: "widget-enum-switch form-validation" },
@@ -38,80 +39,68 @@ describe("EnumSwitch", () => {
             ));
     });
 
-    it("renders with the specified position", () => {
-        const enumswitch = renderEnumSwitch(defaultProps);
+    it("should not create button if there is no default atrribute", () => {
+        defaultProps.enumAttributeValue = "";
+        const enumswitch = shallowRenderSwitch(defaultProps);
 
-        expect(enumswitch.state().position).toEqual(0);
+        expect(enumswitch).toBeElement(
+            createElement("div", { className: "widget-enum-switch form-validation" },
+                createElement("div", { className: "widget-enum-switch form-control" }),
+                createElement(Alert, { message: defaultProps.alertMessage || "", bootstrapStyle: "danger" })
+            ));
     });
 
-    it("renders with the with the specified width", () => {
-        const enumswitch = renderEnumSwitch(defaultProps);
+    it("should slide enum toggle onClick", () => {
+        const enumswitch = fullRenderSwitch(defaultProps);
+        const enumSwitchInstance = enumswitch.instance() as any;
+        const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
+        defaultProps.enumAttributeValue = "Salami";
+        enumSwitchInstance.componentDidUpdate(defaultProps);
 
-        expect(enumswitch.state().width).toEqual(0);
+        expect(enumSlider).toHaveBeenCalled();
     });
 
-    it("renders with the specified height", () => {
-        const enumswitch = renderEnumSwitch(defaultProps);
+    it("should remove events when unmounting", () => {
+        const enumswitch = fullRenderSwitch(defaultProps);
+        const enumSwitchInstance = enumswitch.instance() as any;
+        const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
+        enumSwitchInstance.componentWillUnmount();
 
-        expect(enumswitch.state().width).toEqual(0);
+        enumswitch.unmount();
     });
 
     describe("that is enabled", () => {
         it("should have the enabled class", () => {
-            const enumswitch = renderEnumSwitch(defaultProps);
+            const enumswitch = shallowRenderSwitch(defaultProps);
 
             expect(enumswitch.hasClass("disabled")).not.toBe(true);
-        });
-
-        it("should respond to click events", () => {
-            const enumswitch = renderEnumSwitch(defaultProps);
-
-            enumswitch.simulate("click");
-
-            expect(defaultProps.onClickAction).not.toHaveBeenCalled();
         });
     });
 
     describe("that is disabled", () => {
         it("should not have the enabled class", () => {
             defaultProps.status = "disabled";
-            const enumswitch = renderEnumSwitch(defaultProps);
+            const enumswitch = shallowRenderSwitch(defaultProps);
 
             expect(enumswitch.hasClass("enabled")).not.toBe(true);
         });
-
-        it("should handle click events", () => {
-            defaultProps.status = "disabled";
-            const enumswitch = renderEnumSwitch(defaultProps);
-
-            enumswitch.simulate("click");
-
-            expect(defaultProps.onClickAction).not.toHaveBeenCalled();
-        });
-    });
-
-    xit("should slide enum-toggle on click", () => {
-        const enumswitch = renderEnumSwitch(defaultProps);
-
-        const enumSwitchInstance = enumswitch.instance() as any ;
-        console.log(enumSwitchInstance.componentDidUpdate(defaultProps)); //tslint:disable-line
     });
 
     describe("without context", () => {
         it("should have the noContext class", () => {
             defaultProps.status = "noContext";
-            const enumswitch = renderEnumSwitch(defaultProps);
+            const enumswitch = shallowRenderSwitch(defaultProps);
 
             expect(enumswitch.hasClass("noContext")).toBe(true);
         });
 
-        it("should not handle a click event", () => {
-            defaultProps.status = "enabled";
-            const enumswitch = renderEnumSwitch(defaultProps);
+        it("should not slide enum toggle onClick", () => {
+            const enumswitch = shallowRenderSwitch(defaultProps);
+            const enumSwitchInstance = enumswitch.instance() as any;
+            const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
+            enumSwitchInstance.componentDidUpdate(defaultProps);
 
-            enumswitch.simulate("click");
-
-            expect(defaultProps.onClickAction).not.toHaveBeenCalled();
+            expect(enumSlider).not.toHaveBeenCalled();
         });
     });
 });

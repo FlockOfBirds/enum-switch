@@ -1,6 +1,7 @@
-import { Component, createElement } from "react";
+import { Component, ReactElement, createElement } from "react";
 import { Alert } from "./Alert";
 import { BootstrapStyle, EnumButton, SwitchStatus } from "./EnumButton";
+import { EnumSpan, EnumSpanProps } from "./EnumSpan";
 import * as classNames from "classnames";
 import "../ui/EnumSwitch.scss";
 
@@ -8,7 +9,7 @@ export interface EnumSwitchProps {
     alertMessage?: string;
     enumList: { key: string, caption: string }[];
     enumAttributeValue: string;
-    onClickAction: (caption: string) => void;
+    onClickAction: (caption?: string) => void;
     status: SwitchStatus;
     bootstrapStyle: BootstrapStyle;
 }
@@ -18,7 +19,6 @@ export interface EnumSwitchState {
     width?: number;
     height?: number;
     visibility?: "visible" | "hidden";
-    color?: string;
 }
 
 export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
@@ -58,8 +58,8 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         }
     }
 
-    private createSpan() {
-        const btnElement: any[] = [];
+    private createSpan(): ReactElement<{}>[] {
+        const btnElement: ReactElement<{}>[] = [];
         if (this.props.enumAttributeValue) {
             btnElement.push(createElement(EnumButton, {
                     key: "enumButton",
@@ -74,16 +74,14 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
             this.registerEvents();
         }
         this.props.enumList.forEach((elements, index) => {
-            const spanElements = createElement("span", {
+            btnElement.push(createElement(EnumSpan, {
                 key: index,
-                className: classNames("span-default", "span-responsive", {
-                    active: this.props.enumAttributeValue === elements.caption,
-                    disabled: this.props.status === "disabled"
-                }),
-                onClick: () => this.props.onClickAction(elements.caption),
-                ref: this.props.enumAttributeValue === elements.caption ? this.getActiveSpanNodeRef : ""
-            }, elements.caption);
-            btnElement.push(spanElements);
+                enumAttributeValue: this.props.enumAttributeValue,
+                status: this.props.status,
+                onClickAction: () => this.props.onClickAction(elements.caption),
+                getActiveSpanNode: this.getActiveSpanNodeRef,
+                caption: elements.caption
+            }));
         });
 
         return btnElement;
