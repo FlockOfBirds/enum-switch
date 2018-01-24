@@ -61,7 +61,7 @@ describe("EnumSwitch", () => {
     });
 
     it("should remove events when unmounting", () => {
-        const enumswitch = fullRenderSwitch(defaultProps);
+        const enumswitch = shallowRenderSwitch(defaultProps);
         const enumSwitchInstance = enumswitch.instance() as any;
         const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
         enumSwitchInstance.componentWillUnmount();

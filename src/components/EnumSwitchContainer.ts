@@ -72,7 +72,6 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
             this.props.collection.forEach(buttons => {
                 const filteredList = enumValues.filter(item => item.caption.indexOf(buttons.exclude));
                 enumValues = filteredList;
-                // enumValues.push({ key: buttons.include, caption: buttons.include });
             });
         }
 
