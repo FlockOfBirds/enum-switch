@@ -23,7 +23,7 @@ describe("EnumSwitch", () => {
         const enumswitch = shallowRenderSwitch(defaultProps);
 
         expect(enumswitch).toBeElement(
-            createElement("div", { className: "widget-enum-switch form-validation" },
+            createElement("div", { className: "form-validation" },
                 createElement("div", { className: "widget-enum-switch form-control" },
                     createElement(EnumButton, {
                         status: defaultProps.status,
@@ -44,7 +44,7 @@ describe("EnumSwitch", () => {
         const enumswitch = shallowRenderSwitch(defaultProps);
 
         expect(enumswitch).toBeElement(
-            createElement("div", { className: "widget-enum-switch form-validation" },
+            createElement("div", { className: "form-validation" },
                 createElement("div", { className: "widget-enum-switch form-control" }),
                 createElement(Alert, { message: defaultProps.alertMessage || "", bootstrapStyle: "danger" })
             ));
@@ -63,10 +63,11 @@ describe("EnumSwitch", () => {
     it("should remove events when unmounting", () => {
         const enumswitch = shallowRenderSwitch(defaultProps);
         const enumSwitchInstance = enumswitch.instance() as any;
-        const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
+        const enumSlider = spyOn(enumSwitchInstance, "removeEvents").and.callThrough();
         enumSwitchInstance.componentWillUnmount();
-
         enumswitch.unmount();
+
+        expect(enumSlider).toHaveBeenCalled();
     });
 
     describe("that is enabled", () => {

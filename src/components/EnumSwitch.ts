@@ -45,7 +45,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
     render() {
         if (this.props.status !== "noContext") {
-            return createElement("div", { className: "widget-enum-switch form-validation" },
+            return createElement("div", { className: "form-validation" },
                 createElement("div", {
                     className: classNames("widget-enum-switch", "form-control",
                         { disabled: this.props.status !== "enabled" }),
