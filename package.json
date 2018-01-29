@@ -8,6 +8,7 @@
     "emit": "tsc",
     "lint": "tslint -c tslint.json '**/*.ts' --exclude '**/node_modules/**'",
     "lint:fix": "npm run lint -- --fix",
+    "pretest": "tsc && npm run lint && npm run build",
     "start": "nodemon --watch webpack.config.js --watch Gruntfile.js --exec \"grunt",
     "test": "npm run test:unit && npm run test:conditional",
     "test:conditional": "node ./node_modules/mendix-widget-build-script/dist/CheckPullRequestFromFork.js && echo 'Skip tests on forked pull request' || npm run deployAndTest",
