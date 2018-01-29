@@ -58,15 +58,6 @@ module.exports = function(grunt) {
             }
         },
 
-        file_append: {
-            addSourceURL: {
-                files: [ {
-                    append: `\n\n//# sourceURL=${pkg.widgetName}.webmodeler.js\n`,
-                    input: `dist/tmp/src/${pkg.widgetName}.webmodeler.js`
-                } ]
-            }
-        },
-
         webpack: {
             develop: webpackConfig,
             release: webpackConfigRelease
@@ -94,7 +85,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-compress");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-file-append");
     grunt.loadNpmTasks("grunt-webpack");
 
     grunt.registerTask("default", [ "clean build", "watch" ]);
@@ -106,7 +96,7 @@ module.exports = function(grunt) {
     grunt.registerTask(
         "release",
         "Compiles all the assets and copies the files to the dist directory. Minified without source mapping",
-        [ "checkDependencies", "clean:build", "webpack:release", "file_append", "compress:dist", "copy" ]
+        [ "checkDependencies", "clean:build", "webpack:release", "compress:dist", "copy" ]
     );
     grunt.registerTask("build", [ "clean build" ]);
 };

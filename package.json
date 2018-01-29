@@ -22,8 +22,9 @@
     "deployAndTest": "npm run deploy && npm run test:e2e"
   },
   "pre-commit": [
-    "pretest",
-    "lint"
+    "emit",
+    "lint",
+    "test"
   ],
   "repository": {
     "type": "git",
