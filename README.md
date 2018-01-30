@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/FlockOfBirds/enum-switch.svg?branch=master)](https://travis-ci.org/FlockOfBirds/enum-switch)
+
 # Enum Switch
 Toggle an enumeration attribute.
 

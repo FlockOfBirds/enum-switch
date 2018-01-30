@@ -15,7 +15,7 @@ exports.config = {
     bail: 0,
     screenshotPath: "dist/wdio/",
     baseUrl: debug ? "http://localhost:8580/" : "https://enumswitch-main.mxapps.io/",
-    waitforTimeout: 20000,
+    waitforTimeout: 60000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 0,
     services: [ "selenium-standalone" ],
@@ -23,7 +23,7 @@ exports.config = {
     reporters: [ "dot", "spec" ],
     execArgv: debug ? [ "--inspect" ] : undefined,
     jasmineNodeOpts: {
-        defaultTimeoutInterval: debug ? (60 * 60 * 1000) : (20 * 1000),
+        defaultTimeoutInterval: debug ? (60 * 60 * 1000) : (60 * 1000),
         expectationResultHandler: function(passed, assertion) {
             if (passed) {
                 return;

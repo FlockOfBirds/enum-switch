@@ -23,8 +23,7 @@
   },
   "pre-commit": [
     "emit",
-    "lint",
-    "test"
+    "lint"
   ],
   "repository": {
     "type": "git",
