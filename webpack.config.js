@@ -48,4 +48,35 @@ const widgetConfig = {
     ]
 };
 
-module.exports = [ widgetConfig ];
+const previewConfig = {
+    entry: `./src/${widgetName}.webmodeler.ts`,
+    output: {
+        path: path.resolve(__dirname, "dist/tmp"),
+        filename: `src/${widgetName}.webmodeler.js`,
+        libraryTarget: "commonjs"
+    },
+    resolve: {
+        extensions: [ ".ts", ".js" ]
+    },
+    module: {
+        rules: [
+            { test: /\.ts$/, loader: "ts-loader", options: {
+                compilerOptions: {
+                    "module": "CommonJS",
+                }
+            }},
+            { test: /\.css$/, use: "raw-loader" },
+            { test: /\.scss$/, use: [
+                { loader: "raw-loader" },
+                { loader: "sass-loader" }
+            ] }
+        ]
+    },
+    devtool: "inline-source-map",
+    externals: [ "react", "react-dom" ],
+    plugins: [
+        new webpack.LoaderOptionsPlugin({ debug: true })
+    ]
+};
+
+module.exports = [ widgetConfig, previewConfig ];

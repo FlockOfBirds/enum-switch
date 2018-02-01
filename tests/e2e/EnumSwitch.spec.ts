@@ -2,7 +2,7 @@ import HomePage from "./pages/home.page";
 
 const buttonStyle = "rgba(255,255,255,1)";
 const radioValue = "Salami";
-const buttonPosition = "matrix(1, 0, 0, 1, 1, 0)";
+const buttonWidth = "74.0469px";
 
 describe("EnumSwitch", () => {
 
@@ -24,16 +24,6 @@ describe("EnumSwitch", () => {
         HomePage.radioButton.waitForVisible();
         const radio = HomePage.radioButton.getText();
         expect(radio).toContain(radioValue);
-    });
-
-    it("updates enum-toggle when clicked", () => {
-        HomePage.open();
-        HomePage.enabledSpan.waitForVisible();
-        HomePage.enabledSpan.click();
-
-        HomePage.enabledButton.waitForVisible();
-        const getWidth = HomePage.enabledButton.getCssProperty("transform");
-        expect(getWidth.value).toBe(buttonPosition);
     });
 
 });
