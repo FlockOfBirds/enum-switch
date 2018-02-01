@@ -2,7 +2,6 @@ import HomePage from "./pages/home.page";
 
 const buttonStyle = "rgba(255,255,255,1)";
 const radioValue = "Salami";
-const buttonWidth = "74.0469px";
 
 describe("EnumSwitch", () => {
 

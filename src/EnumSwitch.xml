@@ -47,11 +47,6 @@
                     <category>Data source</category>
                     <description>Keys to exclude from the enumeration</description>
                 </property>
-                <property key="include" type="string" required="false">
-                    <caption>Include key</caption>
-                    <category>Data source</category>
-                    <description>Keys to include in the enumeration</description>
-                </property>
            </properties>
         </property>
         <property key="onChangeMicroflow" type="microflow" required="false">
