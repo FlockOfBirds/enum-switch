@@ -41,7 +41,6 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.createSpan = this.createSpan.bind(this);
         this.getActiveSpanNodeRef = this.getActiveSpanNodeRef.bind(this);
         this.getContainerNodeRef = this.getContainerNodeRef.bind(this);
-        this.registerEvents = this.registerEvents.bind(this);
         this.removeEvents = this.removeEvents.bind(this);
     }
 
@@ -60,7 +59,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
 
     private createSpan(): ReactElement<{}>[] {
-        const btnElement: ReactElement<{}>[] = [];
+        const btnElement: any[] = [];
 
         if (this.props.enumAttributeValue) {
             btnElement.push(createElement(EnumButton, {
@@ -71,8 +70,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
                     visibility: this.state.visibility,
                     width: this.state.width,
                     height: this.state.height
-                }) as any);
-            this.registerEvents();
+            }));
         }
         this.props.enumList.forEach((elements, index) => {
             btnElement.push(createElement(EnumSpan, {
@@ -82,7 +80,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
                 onClickAction: () => this.props.onClickAction(elements.caption),
                 getActiveSpanNode: this.getActiveSpanNodeRef,
                 caption: elements.caption
-            }) as any);
+            }));
         });
 
         return btnElement;
@@ -100,8 +98,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         const widgetContainer = this.widgetContainerNode;
         const activeSpan = this.activeSpanNode;
 
-        if (widgetContainer) {
-            if (activeSpan) {
+        if (widgetContainer && activeSpan) {
                 const activeSpanClient = activeSpan.getBoundingClientRect();
                 this.setState({
                     visibility: "visible",
@@ -113,7 +110,6 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
                 this.setState({ visibility: "hidden" });
             }
         }
-    }
 
     componentDidUpdate(prevProps: EnumSwitchProps) {
         if (this.props.status !== "noContext") {
@@ -124,15 +120,15 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         }
     }
 
-    componentWillUnmount() {
-        this.removeEvents();
+    private removeEvents() {
+        window.removeEventListener("resize", this.enumToggleSlider);
     }
 
-    private registerEvents() {
+    componentDidMount() {
         window.addEventListener("resize", this.enumToggleSlider);
     }
 
-    private removeEvents() {
-        window.removeEventListener("resize", this.enumToggleSlider);
+    componentWillUnmount() {
+        this.removeEvents();
     }
 }

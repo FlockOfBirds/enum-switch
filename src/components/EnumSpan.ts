@@ -1,5 +1,6 @@
 import { Component, createElement } from "react";
 import * as classNames from "classnames";
+
 import { SwitchStatus } from "./EnumButton";
 
 export interface EnumSpanProps {

@@ -52,6 +52,7 @@ describe("EnumSwitch", () => {
         const enumswitch = fullRenderSwitch(defaultProps);
         const enumSwitchInstance = enumswitch.instance() as any;
 
+        enumSwitchInstance.getActiveSpanNodeRef();
         const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
         defaultProps.enumAttributeValue = "Salami";
         enumSwitchInstance.componentDidUpdate(defaultProps);
@@ -64,7 +65,6 @@ describe("EnumSwitch", () => {
         const enumSwitchInstance = enumswitch.instance() as any;
 
         const enumSlider = spyOn(enumSwitchInstance, "removeEvents").and.callThrough();
-        enumSwitchInstance.componentWillUnmount();
         enumswitch.unmount();
 
         expect(enumSlider).toHaveBeenCalled();

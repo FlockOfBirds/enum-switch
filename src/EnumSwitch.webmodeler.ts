@@ -3,9 +3,10 @@ import { Component, createElement } from "react";
 import { EnumSwitch, EnumSwitchProps } from "./components/EnumSwitch";
 import { EnumContainerProps } from "./components/EnumSwitchContainer";
 
-export class Preview extends Component<EnumContainerProps, {}> {
+// tslint:disable-next-line class-name
+export class preview extends Component<EnumContainerProps> {
     render() {
-        return createElement(EnumSwitch as any, Preview.transformProps(this.props));
+        return createElement(EnumSwitch as any, preview.transformProps(this.props));
     }
 
     private static transformProps(props: EnumContainerProps): EnumSwitchProps {
@@ -23,6 +24,6 @@ export class Preview extends Component<EnumContainerProps, {}> {
     }
 }
 
-export function getPreviewCss() {
+export function getpreviewCss() {
     return require("./ui/EnumSwitch.scss");
 }
