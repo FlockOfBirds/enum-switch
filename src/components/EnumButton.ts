@@ -8,7 +8,6 @@ export interface EnumButtonProps {
     position?: number;
     width?: number;
     height?: number;
-    getButtonNode?: (ref: HTMLButtonElement | null) => void;
 }
 
 export type SwitchStatus = "enabled" | "disabled" | "noContext";
@@ -24,8 +23,7 @@ export class EnumButton extends Component<EnumButtonProps> {
                 transform: `translate3d(${this.props.position}px, 0px, 0px)`,
                 width: `${this.props.width}px`,
                 height: `${this.props.height}px`
-            },
-            ref: this.props.getButtonNode
+            }
         });
     }
 }

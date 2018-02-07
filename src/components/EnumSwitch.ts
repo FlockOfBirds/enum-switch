@@ -1,8 +1,10 @@
 import { Component, ReactElement, createElement } from "react";
+import * as classNames from "classnames";
+
 import { Alert } from "./Alert";
 import { BootstrapStyle, EnumButton, SwitchStatus } from "./EnumButton";
-import { EnumSpan, EnumSpanProps } from "./EnumSpan";
-import * as classNames from "classnames";
+import { EnumSpan } from "./EnumSpan";
+
 import "../ui/EnumSwitch.scss";
 
 export interface EnumSwitchProps {
@@ -22,7 +24,6 @@ export interface EnumSwitchState {
 }
 
 export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
-    private buttonNode: HTMLButtonElement;
     private activeSpanNode: HTMLSpanElement;
     private widgetContainerNode: HTMLDivElement;
 
@@ -35,42 +36,42 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
             height: 0,
             visibility: "visible"
         };
+
         this.enumToggleSlider = this.enumToggleSlider.bind(this);
         this.createSpan = this.createSpan.bind(this);
         this.getActiveSpanNodeRef = this.getActiveSpanNodeRef.bind(this);
-        this.WidgetContainerNodeRef = this.WidgetContainerNodeRef.bind(this);
-        this.getButtonNodeRef = this.getButtonNodeRef.bind(this);
+        this.getContainerNodeRef = this.getContainerNodeRef.bind(this);
         this.registerEvents = this.registerEvents.bind(this);
         this.removeEvents = this.removeEvents.bind(this);
     }
+
     render() {
         if (this.props.status !== "noContext") {
             return createElement("div", { className: "form-validation" },
                 createElement("div", {
                     className: classNames("widget-enum-switch", "form-control",
                         { disabled: this.props.status !== "enabled" }),
-                    ref: this.WidgetContainerNodeRef
+                    ref: this.getContainerNodeRef
                 }, this.createSpan()),
                 createElement(Alert, { message: this.props.alertMessage || "", bootstrapStyle: "danger" })
             );
-        } else {
-            return createElement("span", { className: "enum-switch noContext" });
         }
+        return createElement("span", { className: "enum-switch noContext" });
     }
 
     private createSpan(): ReactElement<{}>[] {
         const btnElement: ReactElement<{}>[] = [];
+
         if (this.props.enumAttributeValue) {
             btnElement.push(createElement(EnumButton, {
                     key: "enumButton",
                     status: this.props.status,
                     bootstrapStyle: this.props.bootstrapStyle,
-                    getButtonNode: this.getButtonNodeRef,
                     position: this.state.position,
                     visibility: this.state.visibility,
                     width: this.state.width,
                     height: this.state.height
-                }));
+                }) as any);
             this.registerEvents();
         }
         this.props.enumList.forEach((elements, index) => {
@@ -81,7 +82,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
                 onClickAction: () => this.props.onClickAction(elements.caption),
                 getActiveSpanNode: this.getActiveSpanNodeRef,
                 caption: elements.caption
-            }));
+            }) as any);
         });
 
         return btnElement;
@@ -91,12 +92,8 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.activeSpanNode = node;
     }
 
-    private WidgetContainerNodeRef(node: HTMLDivElement) {
+    private getContainerNodeRef(node: HTMLDivElement) {
         this.widgetContainerNode = node;
-    }
-
-    private getButtonNodeRef(node: HTMLButtonElement) {
-        this.buttonNode = node;
     }
 
     private enumToggleSlider() {
@@ -118,7 +115,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         }
     }
 
-    componentDidUpdate(prevProps: EnumSwitchProps, prevState: EnumSwitchState) {
+    componentDidUpdate(prevProps: EnumSwitchProps) {
         if (this.props.status !== "noContext") {
             if (prevProps.enumAttributeValue !== this.props.enumAttributeValue ||
                 (this.state.height !== this.widgetContainerNode.clientHeight && this.activeSpanNode)) {

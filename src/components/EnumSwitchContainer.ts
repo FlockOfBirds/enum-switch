@@ -1,5 +1,4 @@
 import { Component, createElement } from "react";
-import { Alert } from "./Alert";
 import { EnumSwitch } from "./EnumSwitch";
 import { BootstrapStyle, SwitchStatus } from "./EnumButton";
 
@@ -35,6 +34,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
             enumAttributeValue: "",
             enumList: []
         };
+
         this.handleToggle = this.handleToggle.bind(this);
         this.getEnumValues = this.getEnumValues.bind(this);
         this.updateState = this.updateState.bind(this);
@@ -42,7 +42,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
     }
 
     render() {
-        return createElement(EnumSwitch, {
+        return createElement(EnumSwitch as any, {
             alertMessage: this.state.alertMessage,
             enumList: this.state.enumList,
             enumAttributeValue: this.state.enumAttributeValue,
@@ -68,6 +68,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
 
     private getEnumValues(mxObject: mendix.lib.MxObject): { key: string, caption: string }[] {
         let enumValues = mxObject.getEnumMap(this.props.name);
+
         if (this.props.editable !== "never") {
             this.props.collection.forEach(buttons => {
                 const filteredList = enumValues.filter(item => item.caption.indexOf(buttons.exclude));
@@ -84,6 +85,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
 
     private isReadOnly(): boolean {
         const { name, editable, mxObject, readOnly } = this.props;
+
         return !(editable === "default" && mxObject) || (readOnly || mxObject.isReadonlyAttr(name));
     }
 
@@ -97,6 +99,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
 
     private handleToggle(caption: string) {
         const { mxObject, name, onChangeMicroflow } = this.props;
+
         if (mxObject) {
             if (caption !== this.state.enumAttributeValue) {
                 mxObject.set(name, caption);
@@ -140,6 +143,7 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
     private handleValidations(validations: mendix.lib.ObjectValidation[]) {
         const validationMessage = validations[0].getErrorReason(this.props.name);
         validations[0].removeAttribute(this.props.name);
+
         if (validationMessage) {
             this.setState({ alertMessage: validationMessage });
         }

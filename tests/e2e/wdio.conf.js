@@ -14,7 +14,7 @@ exports.config = {
     coloredLogs: true,
     bail: 0,
     screenshotPath: "dist/wdio/",
-    baseUrl: debug ? "http://localhost:8580/" : "https://enumswitch-main.mxapps.io/",
+    baseUrl: debug ? "http://localhost:8080/" : "https://enumswitch-main.mxapps.io/",
     waitforTimeout: 60000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 0,

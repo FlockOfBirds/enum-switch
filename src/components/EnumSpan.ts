@@ -6,7 +6,7 @@ export interface EnumSpanProps {
    enumAttributeValue?: string;
    status?: SwitchStatus;
    onClickAction: (caption?: string) => void;
-   getActiveSpanNode?: (ref: HTMLSpanElement | null) => void;
+   getActiveSpanNode?: (ref: HTMLSpanElement) => void;
    caption?: string;
 }
 

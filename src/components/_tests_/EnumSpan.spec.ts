@@ -1,6 +1,5 @@
 import { shallow } from "enzyme";
 import { createElement } from "react";
-import * as classNames from "classnames";
 
 import { EnumSpan, EnumSpanProps } from "../EnumSpan";
 

@@ -1,14 +1,13 @@
 import { mount, shallow } from "enzyme";
 import { createElement } from "react";
-import * as classNames from "classnames";
-import { Alert, AlertProps } from "../Alert";
+import { Alert } from "../Alert";
 
 import { EnumSwitch, EnumSwitchProps } from "../EnumSwitch";
 import { EnumButton } from "../EnumButton";
 
 describe("EnumSwitch", () => {
-    const shallowRenderSwitch = (props: EnumSwitchProps) => shallow(createElement(EnumSwitch, props));
-    const fullRenderSwitch = (props: EnumSwitchProps) => mount(createElement(EnumSwitch, props));
+    const shallowRenderSwitch = (props: EnumSwitchProps) => shallow(createElement(EnumSwitch as any, props));
+    const fullRenderSwitch = (props: EnumSwitchProps) => mount(createElement(EnumSwitch as any, props));
 
     const defaultProps: EnumSwitchProps = {
         alertMessage: "",
@@ -31,8 +30,7 @@ describe("EnumSwitch", () => {
                         position: enumswitch.state().position,
                         visibility: enumswitch.state().visibility,
                         width: enumswitch.state().width,
-                        height: enumswitch.state().height,
-                        getButtonNode: jasmine.any(Function)
+                        height: enumswitch.state().height
                     })
                 ),
                 createElement(Alert, { message: defaultProps.alertMessage || "", bootstrapStyle: "danger" })
@@ -53,6 +51,7 @@ describe("EnumSwitch", () => {
     it("should slide enum toggle onClick", () => {
         const enumswitch = fullRenderSwitch(defaultProps);
         const enumSwitchInstance = enumswitch.instance() as any;
+
         const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
         defaultProps.enumAttributeValue = "Salami";
         enumSwitchInstance.componentDidUpdate(defaultProps);
@@ -63,6 +62,7 @@ describe("EnumSwitch", () => {
     it("should remove events when unmounting", () => {
         const enumswitch = shallowRenderSwitch(defaultProps);
         const enumSwitchInstance = enumswitch.instance() as any;
+
         const enumSlider = spyOn(enumSwitchInstance, "removeEvents").and.callThrough();
         enumSwitchInstance.componentWillUnmount();
         enumswitch.unmount();
@@ -98,6 +98,7 @@ describe("EnumSwitch", () => {
         it("should not slide enum toggle onClick", () => {
             const enumswitch = shallowRenderSwitch(defaultProps);
             const enumSwitchInstance = enumswitch.instance() as any;
+
             const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();
             enumSwitchInstance.componentDidUpdate(defaultProps);
 
