@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/FlockOfBirds/enum-switch.svg?branch=master)](https://travis-ci.org/FlockOfBirds/enum-switch)
+[![Build Status](https://travis-ci.org/FlockOfBirds/enum-switch.svg?branch=feature%2Finitial)](https://travis-ci.org/FlockOfBirds/enum-switch)
+[![codecov](https://codecov.io/gh/flockofbirds/enum-switch/graph/badge.svg?/branch=feature/initial)](https://codecov.io/gh/flockofbirds/enum-switch)
+![badge](https://img.shields.io/badge/mendix-7.10.0-green.svg)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/FlockOfBirds/enum-switch.svg)](http://isitmaintained.com/project/FlockOfBirds/enum-switch "Percentage of issues still open")
 
 # Enum Switch
 Toggle an enumeration attribute.
