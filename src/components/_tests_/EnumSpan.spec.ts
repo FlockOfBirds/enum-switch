@@ -31,8 +31,11 @@ describe("EnumSpan", () => {
     });
 
     it("should have the class active when active", () => {
-        defaultProps.caption = "Chicken";
-        const enumSpan = renderEnumSpan(defaultProps);
+        const enumSpanProps: EnumSpanProps = {
+            ...defaultProps,
+            caption: "Chicken"
+        };
+        const enumSpan = renderEnumSpan(enumSpanProps);
 
         expect(enumSpan).toHaveClass("active");
     });
@@ -55,8 +58,11 @@ describe("EnumSpan", () => {
 
     describe("that it is disabled", () => {
         it("should have the class disabled", () => {
-            defaultProps.status = "disabled";
-            const enumSpan = renderEnumSpan(defaultProps);
+            const enumSpanProps: EnumSpanProps = {
+                ...defaultProps,
+                status: "disabled"
+            };
+            const enumSpan = renderEnumSpan(enumSpanProps);
 
             expect(enumSpan).toHaveClass("disabled");
         });

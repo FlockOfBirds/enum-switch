@@ -38,8 +38,11 @@ describe("EnumSwitch", () => {
     });
 
     it("should not create button if there is no default atrribute", () => {
-        defaultProps.enumAttributeValue = "";
-        const enumswitch = shallowRenderSwitch(defaultProps);
+        const enumSwitchProps: EnumSwitchProps = {
+            ...defaultProps,
+            enumAttributeValue: ""
+        };
+        const enumswitch = shallowRenderSwitch(enumSwitchProps);
 
         expect(enumswitch).toBeElement(
             createElement("div", { className: "form-validation" },
@@ -73,30 +76,39 @@ describe("EnumSwitch", () => {
     describe("that is enabled", () => {
         it("should have the enabled class", () => {
             const enumswitch = shallowRenderSwitch(defaultProps);
+            const enumSwitchWrapper = enumswitch.find(".widget-enum-switch");
 
-            expect(enumswitch.hasClass("disabled")).not.toBe(true);
+            expect(enumSwitchWrapper.hasClass("disabled")).not.toBe(true);
         });
     });
 
     describe("that is disabled", () => {
         it("should not have the enabled class", () => {
-            defaultProps.status = "disabled";
-            const enumswitch = shallowRenderSwitch(defaultProps);
+            const enumSwitchProps: EnumSwitchProps = {
+                ...defaultProps,
+                status: "disabled"
+            };
+            const enumswitch = shallowRenderSwitch(enumSwitchProps);
+            const enumSwitchWrapper = enumswitch.find(".widget-enum-switch");
 
-            expect(enumswitch.hasClass("enabled")).not.toBe(true);
+            expect(enumSwitchWrapper.hasClass("disabled")).toBe(true);
         });
     });
 
     describe("without context", () => {
         it("should have the noContext class", () => {
-            defaultProps.status = "noContext";
-            const enumswitch = shallowRenderSwitch(defaultProps);
+            const enumSwitchProps: EnumSwitchProps = {
+                ...defaultProps,
+                status: "noContext"
+            };
+            const enumswitch = shallowRenderSwitch(enumSwitchProps);
+            const enumSwitchWrapper = enumswitch.find(".widget-enum-switch");
 
-            expect(enumswitch.hasClass("noContext")).toBe(true);
+            expect(enumSwitchWrapper).toHaveClass("noContext");
         });
 
         it("should not slide enum toggle onClick", () => {
-            const enumswitch = shallowRenderSwitch(defaultProps);
+            const enumswitch = fullRenderSwitch(defaultProps);
             const enumSwitchInstance = enumswitch.instance() as any;
 
             const enumSlider = spyOn(enumSwitchInstance, "enumToggleSlider").and.callThrough();

@@ -35,8 +35,11 @@ describe("EnumButton", () => {
     });
 
     it("should have the class disabled when not enabled", () => {
-        defaultProps.status = "disabled";
-        const enumSwitchButton = renderEnumButton(defaultProps);
+        const enumButtonProps: EnumButtonProps = {
+            ...defaultProps,
+            status: "disabled"
+        };
+        const enumSwitchButton = renderEnumButton(enumButtonProps);
 
         expect(enumSwitchButton).toHaveClass("disabled");
     });

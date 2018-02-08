@@ -51,14 +51,14 @@
             pointer-events: none;
         }
     }
-}
 
-.enum-switch.noContext {
-    display: inline-block;
-    pointer-events: none;
-    border: 1px solid #dfdfdf;
-    border-radius: 8px;
-    background-color: #fff;
-    width: 200px;
-    height: 41px;
+    &.noContext {
+        display: inline-block;
+        pointer-events: none;
+        border: 1px solid #dfdfdf;
+        border-radius: 8px;
+        background-color: #fff;
+        width: 200px;
+        height: 41px;
+    }
 }

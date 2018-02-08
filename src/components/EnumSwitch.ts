@@ -45,21 +45,21 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
 
     render() {
-        if (this.props.status !== "noContext") {
-            return createElement("div", { className: "form-validation" },
-                createElement("div", {
-                    className: classNames("widget-enum-switch", "form-control",
-                        { disabled: this.props.status !== "enabled" }),
-                    ref: this.getContainerNodeRef
-                }, this.createSpan()),
-                createElement(Alert, { message: this.props.alertMessage || "", bootstrapStyle: "danger" })
-            );
-        }
-        return createElement("span", { className: "enum-switch noContext" });
+        return createElement("div", { className: "form-validation" },
+            createElement("div", {
+                className: classNames("widget-enum-switch", "form-control",
+                    {
+                        disabled: this.props.status === "disabled",
+                        noContext: this.props.status === "noContext"
+                    }),
+                ref: this.getContainerNodeRef
+            }, this.createSpan()),
+            createElement(Alert, { message: this.props.alertMessage || "", bootstrapStyle: "danger" })
+        );
     }
 
     private createSpan(): ReactElement<{}>[] {
-        const btnElement: any[] = [];
+        const btnElement: ReactElement<any>[] = [];
 
         if (this.props.enumAttributeValue) {
             btnElement.push(createElement(EnumButton, {
