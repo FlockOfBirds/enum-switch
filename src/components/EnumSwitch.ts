@@ -24,8 +24,9 @@ export interface EnumSwitchState {
 }
 
 export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
-    private activeSpanNode: HTMLSpanElement;
-    private widgetContainerNode: HTMLDivElement;
+    private activeSpanNode: HTMLSpanElement = document.createElement("span");
+    private widgetContainerNode: HTMLDivElement = document.createElement("div");
+    private eventHandle = 0;
 
     constructor(props: EnumSwitchProps) {
         super(props);
@@ -41,7 +42,7 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         this.createSpan = this.createSpan.bind(this);
         this.getActiveSpanNodeRef = this.getActiveSpanNodeRef.bind(this);
         this.getContainerNodeRef = this.getContainerNodeRef.bind(this);
-        this.removeEvents = this.removeEvents.bind(this);
+        this.throttleUpdate = this.throttleUpdate.bind(this);
     }
 
     render() {
@@ -58,18 +59,45 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         );
     }
 
+    componentDidMount() {
+        window.addEventListener("resize", this.throttleUpdate);
+    }
+
+    componentDidUpdate(prevProps: EnumSwitchProps) {
+        if (this.props.status !== "noContext") {
+            if (prevProps.enumAttributeValue !== this.props.enumAttributeValue ||
+                (this.state.height !== this.widgetContainerNode.clientHeight && this.activeSpanNode)) {
+                this.enumToggleSlider();
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.throttleUpdate);
+    }
+
+    private throttleUpdate() {
+        if (this.eventHandle) {
+            window.clearTimeout(this.eventHandle);
+        }
+        this.eventHandle = window.setTimeout(() => {
+            this.enumToggleSlider();
+            this.eventHandle = 0;
+        }, 50);
+    }
+
     private createSpan(): ReactElement<{}>[] {
         const btnElement: ReactElement<any>[] = [];
 
         if (this.props.enumAttributeValue) {
             btnElement.push(createElement(EnumButton, {
-                    key: "enumButton",
-                    status: this.props.status,
-                    bootstrapStyle: this.props.bootstrapStyle,
-                    position: this.state.position,
-                    visibility: this.state.visibility,
-                    width: this.state.width,
-                    height: this.state.height
+                key: "enumButton",
+                status: this.props.status,
+                bootstrapStyle: this.props.bootstrapStyle,
+                position: this.state.position,
+                visibility: this.state.visibility,
+                width: this.state.width,
+                height: this.state.height
             }));
         }
         this.props.enumList.forEach((elements, index) => {
@@ -99,36 +127,15 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
         const activeSpan = this.activeSpanNode;
 
         if (widgetContainer && activeSpan) {
-                const activeSpanClient = activeSpan.getBoundingClientRect();
-                this.setState({
-                    visibility: "visible",
-                    position: activeSpanClient.left - widgetContainer.getBoundingClientRect().left,
-                    width: activeSpanClient.width,
-                    height: activeSpanClient.height
-                });
-            } else {
-                this.setState({ visibility: "hidden" });
-            }
+            const activeSpanClient = activeSpan.getBoundingClientRect();
+            this.setState({
+                visibility: "visible",
+                position: activeSpanClient.left - widgetContainer.getBoundingClientRect().left,
+                width: activeSpanClient.width,
+                height: activeSpanClient.height
+            });
+        } else {
+            this.setState({ visibility: "hidden" });
         }
-
-    componentDidUpdate(prevProps: EnumSwitchProps) {
-        if (this.props.status !== "noContext") {
-            if (prevProps.enumAttributeValue !== this.props.enumAttributeValue ||
-                (this.state.height !== this.widgetContainerNode.clientHeight && this.activeSpanNode)) {
-                this.enumToggleSlider();
-            }
-        }
-    }
-
-    private removeEvents() {
-        window.removeEventListener("resize", this.enumToggleSlider);
-    }
-
-    componentDidMount() {
-        window.addEventListener("resize", this.enumToggleSlider);
-    }
-
-    componentWillUnmount() {
-        this.removeEvents();
     }
 }

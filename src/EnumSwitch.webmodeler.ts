@@ -1,10 +1,12 @@
 import { Component, createElement } from "react";
 
-import { EnumSwitch, EnumSwitchProps } from "./components/EnumSwitch";
+import { EnumSwitch, EnumSwitchProps, EnumSwitchState } from "./components/EnumSwitch";
 import { EnumContainerProps } from "./components/EnumSwitchContainer";
 
+declare function require(name: string): string;
+
 // tslint:disable-next-line class-name
-export class preview extends Component<EnumContainerProps> {
+export class preview extends Component<EnumContainerProps, EnumSwitchState> {
     render() {
         return createElement(EnumSwitch as any, preview.transformProps(this.props));
     }

@@ -2,17 +2,18 @@ import { Component, createElement } from "react";
 
 import { EnumSwitch } from "./EnumSwitch";
 import { BootstrapStyle, SwitchStatus } from "./EnumButton";
+import { ValidateConfigs } from "../utils/ValidateConfigs";
 
 interface WrapperProps {
     class: string;
-    mxObject?: mendix.lib.MxObject;
+    mxObject: mendix.lib.MxObject;
     readOnly?: boolean;
 }
 
 export interface EnumContainerProps extends WrapperProps {
     name: string;
     editable: "default" | "never";
-    collection: { exclude: string; include: string}[];
+    collection: { exclude: string }[];
     bootstrapStyle: BootstrapStyle;
     onChangeMicroflow: string;
     page: string;
@@ -56,9 +57,11 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
     componentWillReceiveProps(newProps: EnumContainerProps) {
         if (newProps.mxObject) {
             this.resetSubscriptions(newProps.mxObject);
+            const configsAlert = ValidateConfigs.validateProps(newProps);
             this.setState({
                 enumAttributeValue: this.getAttributeValue(this.props.name, newProps.mxObject),
-                enumList: this.getEnumValues(newProps.mxObject)
+                enumList: this.getEnumValues(newProps.mxObject),
+                alertMessage: configsAlert
             });
         }
     }
@@ -135,7 +138,6 @@ export default class EnumSwitchContainer extends Component<EnumContainerProps, E
 
     private updateState() {
         this.setState({
-            alertMessage: "",
             enumAttributeValue: this.getAttributeValue(this.props.name, this.props.mxObject),
             enumList: this.state.enumList
         });

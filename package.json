@@ -2,7 +2,7 @@
   "name": "enumswitch",
   "widgetName": "EnumSwitch",
   "version": "1.0.0",
-  "description": "This widget lets users toggle an enumeration attribute.",
+  "description": "This widget lets users toggle an enumeration attribute",
   "scripts": {
     "build": "grunt release",
     "emit": "tsc",
