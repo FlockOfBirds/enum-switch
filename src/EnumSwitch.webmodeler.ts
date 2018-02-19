@@ -15,7 +15,7 @@ export class preview extends Component<EnumContainerProps, EnumSwitchState> {
         return {
             enumList: [
                 { key: "Salami", caption: "Salami" },
-                { key: "chicken", caption: "chicken" },
+                { key: "Chicken", caption: "Chicken" },
                 { key: "Peperoni", caption: "Peperoni" }
             ],
             enumAttributeValue: "chicken",
@@ -26,6 +26,6 @@ export class preview extends Component<EnumContainerProps, EnumSwitchState> {
     }
 }
 
-export function getpreviewCss() {
+export function getPreviewCss() {
     return require("./ui/EnumSwitch.scss");
 }

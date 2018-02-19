@@ -3,9 +3,9 @@ import NoContextPage from "./pages/noContext.page";
 
 const buttonStyle = "rgba(255,255,255,1)";
 const radioValue = "Salami";
-const switchWidth = "200px";
+const switchColor = "rgba(85,85,85,1)";
 const pointerEvents = "none";
-const danger = "rgb(130, 50, 47, 1)";
+const danger = "rgba(142,17,22,1)";
 
 describe("EnumSwitch", () => {
 
@@ -51,8 +51,8 @@ describe("EnumSwitch", () => {
         NoContextPage.open();
         NoContextPage.noContextSwitch.waitForVisible();
 
-        const content = NoContextPage.noContextSwitch.getCssProperty("width");
-        expect(content.value).toBe(switchWidth);
+        const content = NoContextPage.noContextSwitch.getCssProperty("color");
+        expect(content.value).toBe(switchColor);
     });
 
 });

@@ -24,17 +24,17 @@ export interface EnumSwitchState {
 }
 
 export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
-    private activeSpanNode: HTMLSpanElement = document.createElement("span");
-    private widgetContainerNode: HTMLDivElement = document.createElement("div");
+    private activeSpanNode: HTMLSpanElement;
+    private widgetContainerNode: HTMLDivElement;
     private eventHandle = 0;
 
     constructor(props: EnumSwitchProps) {
         super(props);
 
         this.state = {
-            position: 0,
-            width: 0,
-            height: 0,
+            position: 1,
+            width: 58.2344,
+            height: 33,
             visibility: "visible"
         };
 
@@ -64,11 +64,11 @@ export class EnumSwitch extends Component<EnumSwitchProps, EnumSwitchState> {
     }
 
     componentDidUpdate(prevProps: EnumSwitchProps) {
-        if (this.props.status !== "noContext") {
-            if (prevProps.enumAttributeValue !== this.props.enumAttributeValue ||
-                (this.state.height !== this.widgetContainerNode.clientHeight && this.activeSpanNode)) {
-                this.enumToggleSlider();
-            }
+        const checkNode = (this.widgetContainerNode && this.activeSpanNode &&
+            this.state.height !== this.widgetContainerNode.clientHeight);
+
+        if (prevProps.enumAttributeValue !== this.props.enumAttributeValue || checkNode) {
+            this.enumToggleSlider();
         }
     }
 
